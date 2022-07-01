@@ -14,7 +14,7 @@ class ContactController extends Controller {
          * Here get all data for populate the view table, as well
          * do a compare to set up filter for company selected.
          */
-        $contacts = Contact::orderBy('first_name', 'asc')->where(function($query) {
+        $contacts = Contact::orderBy('id', 'desc')->where(function($query) {
            if($companyId = request('company_id')){
              $query->where('company_id', $companyId);
            }
@@ -44,7 +44,9 @@ class ContactController extends Controller {
             'company_id' => 'required|exists:companies,id',
         ]);
         
-        dd($request->only('first_name', 'last_name'));
+        Contact::create($request->all());
+        
+        return redirect()->route('contacts.index')->with('message',"Contact has been added successfully!");
     }
     
     public function show($id) {
