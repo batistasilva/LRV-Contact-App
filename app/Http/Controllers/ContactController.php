@@ -4,17 +4,21 @@ use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\Company;
 
-
 class ContactController extends Controller {
 
     public function index() {
         
         $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All Companies', '');
+       
+//        \DB::enableQueryLog();
+        
         /**
          * Here get all data for populate the view table, as well
          * do a compare to set up filter for company selected.
          */
-        $contacts = Contact::latestFirst()->filter()->paginate(10);
+        $contacts = Contact::latestFirst()->paginate(10);
+        
+//        dd(\DB::getQueryLog());
         
         return view('contacts.index', compact('contacts', 'companies'));
     }
