@@ -1,15 +1,24 @@
 <?php
+
 namespace App\Scopes;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Database\Eloquent\Builder;
 
 class FilterScope implements Scope {
 
-    public function apply(Builder $builder, Model $model) {
+    protected $filterColums = ["company_id"];
 
-        if ($companyId = request('company_id')) {
-            $builder->where('company_id', $companyId);
+    public function apply(Builder $builder, Model $model) {
+        
+        $columns = property_exists($model, 'filterColumns') ? $model->filterColumns : $this->filterColums;
+       
+        foreach ($model->filterColums as $colum) {
+            
+            if ($value = request($colum)) {
+                $builder->where($colum, $value);
+            }          
         }
     }
 
