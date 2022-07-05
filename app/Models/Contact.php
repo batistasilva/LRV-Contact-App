@@ -12,7 +12,7 @@ class Contact extends Model {
     use HasFactory;
 
     protected $fillable = [
-        'first_name', 'last_name', 'phone', 'email', 'address', 'company_id'
+        'first_name', 'last_name', 'phone', 'email', 'address', 'company_id', 'user_id'
     ];
 
     public $filterColums = ['company_id'];
@@ -20,7 +20,11 @@ class Contact extends Model {
     public function company() {
         return $this->belongsTo(Company::class);
     }
-
+  
+    public function user(){
+       return $this->belongsTo(User::class);
+    }
+   
     public function scopelatestFirst($query) {
         return $query->orderBy('id', 'desc');
     }
