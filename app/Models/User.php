@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use App\Models\Company;
-use App\Models\Contact;
 
-class User extends Authenticatable
+class User extends Authenticatable 
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -20,9 +19,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'company',
+        'bio',
+        'profile_picture'
     ];
 
     /**
@@ -43,12 +46,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
-    public function contacts() {
+
+    public function contacts()
+    {
         return $this->hasMany(Contact::class);
     }
     
-    public function companies() {
+    public function companies()
+    {
         return $this->hasMany(Company::class);
-    }    
+    }
+
+    public function fullName()
+    {
+        return $this->first_name . " " . $this->last_name;
+    }
+
+    public function profileUrl()
+    {
+        return Storage::exists($this->profile_picture)  ? Storage::url($this->profile_picture) : 'http://via.placeholder.com/150x150';
+    }
 }
