@@ -22,10 +22,11 @@ class ProfileController extends Controller
 
     public function update(ProfileUpdateRequest $request)
     {
+        ///home/batista/WorkSpace/NetBeansProjects/LaravelCourse/contact-app/public/storage/uploads/profile-picture-96.png
         $profileData = $request->handleRequest();
-
         $request->user()->update($profileData);
 
+        
         return back()->with('message', 'Profile has been updated successfully');
     }
 }

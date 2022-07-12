@@ -64,6 +64,6 @@ class User extends Authenticatable
 
     public function profileUrl()
     {
-        return Storage::exists($this->profile_picture)  ? Storage::url($this->profile_picture) : 'http://via.placeholder.com/150x150';
+        return Storage::exists($this->profile_picture)  ? asset('storage/' . $this->profile_picture) : 'http://via.placeholder.com/150x150';
     }
 }

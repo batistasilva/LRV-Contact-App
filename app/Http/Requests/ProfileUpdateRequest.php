@@ -42,10 +42,12 @@ class ProfileUpdateRequest extends FormRequest
         {
             $picture = $this->profile_picture;
             $fileName = "profile-picture-{$profile->id}." . $picture->getClientOriginalExtension();
-            // $picture->move(public_path('upload'), $fileName);
             // $fileName = Storage::putFileAs('uploads', $picture, $fileName);
-            $fileName = $picture->storeAs('uploads', $fileName);
-            
+           // dd($fileName);
+            $fileName = $picture->storePubliclyAs('images', $fileName);
+         
+//
+           // $picture->move(public_path('upload'), $fileName);       
             $profileData['profile_picture'] = $fileName;
         }
 
