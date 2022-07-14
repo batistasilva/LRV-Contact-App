@@ -10,8 +10,8 @@ class Contact extends Model
 {
     use HasFactory, FilterSearchScope;
 
-    protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'company_id', 'company->name'];
-    public $searchColumns = ['first_name', 'last_name', 'email'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'company_id'];
+    public $searchColumns = ['first_name', 'last_name', 'email', 'company.name'];
     public $filterColumns = ['company_id'];
 
     /**
@@ -20,7 +20,7 @@ class Contact extends Model
      */
     public function company()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(Company::class)->withoutGlobalScopes();
     }
 
     public function user()
